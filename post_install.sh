@@ -126,7 +126,7 @@ select yn in "Yes" "No"; do
 done
 printf "Done!\n\n"
 
-printf "Disable Gnome Screen Recorder's time limit\n"
+printf "Disabling Gnome Screen Recorder's time limit\n"
 gsettings set org.gnome.settings-daemon.plugins.media-keys max-screencast-length 0
 printf "Done!\n\n"
 
