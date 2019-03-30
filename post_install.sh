@@ -150,6 +150,7 @@ printf "Done!(Re-login to take effect.)\n\n"
 
 printf "Installing C Development Tools and Libraries\n"
 sudo dnf $Y groupinstall "C Development Tools and Libraries"
+sudo dnf $Y install clang astyle
 printf "Done!\n\n"
 
 printf "Installing Cross Compilation Essentials\n"
