@@ -54,6 +54,10 @@ parse_commandline ()
 				_arg_nvidia="on"
 				test "${1:0:5}" = "--no-" && _arg_nvidia="off"
 				;;
+			--no-dnfyes|--dnfyes)
+				_arg_dnfyes="on"
+				test "${1:0:5}" = "--no-" && _arg_dnfyes="off"
+				;;
 			-h|--help)
 				print_help
 				exit 0
