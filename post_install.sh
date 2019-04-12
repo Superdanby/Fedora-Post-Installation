@@ -229,10 +229,11 @@ printf "Done!\n\n"
 # sudo dnf $Y install f2[78]-backgrounds-gnome f2[78]-backgrounds-extras-gnome f2*-backgrounds-animated
 # printf "Done!\n\n"
 
-printf "Installing paper-icon-theme\n"
-sudo dnf $Y copr enable heikoada/gtk-themes
-sudo dnf $Y install paper-icon-theme
-printf "Done!\n\n"
+printf "Gnome icon theme is renewed in Gnome 3.22\n"
+# printf "Installing paper-icon-theme\n"
+# sudo dnf $Y copr enable heikoada/gtk-themes
+# sudo dnf $Y install paper-icon-theme
+# printf "Done!\n\n"
 
 if [ "$_arg_nvidia" = on ]
 then
