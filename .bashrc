@@ -16,6 +16,8 @@ alias g+='g++ -Wall -Wextra -std=c++17 -O2'
 alias gc='gcc -Wall -Wextra -std=c17'
 alias cowsay='cowsay -f dragon-and-cow $1'
 alias sshfs='sshfs -o reconnect,ServerAliveInterval=5,ServerAliveCountMax=3'
+alias ssh='ssh -e'
+alias py="source $HOME/Project/venv/bin/activate"
 
 #The command 'command' is very important. It prevents functions to recursively call itself forever.
 Green="\033[0;92m"
