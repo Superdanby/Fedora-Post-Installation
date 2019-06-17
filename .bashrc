@@ -85,6 +85,35 @@ after () {
 	echo "notify-send '$@'" | at now + $min minute
 }
 
+sshppk () {
+    if [[ $# == 0 ]]; then
+        printf "Usage: ${FUNCNAME[0]} user1@host1 user2@host2...\n" 1 >& 2
+        return 1
+    fi
+    if [[ ! -f ~/.ssh/id_rsa ]]; then
+        read -p "ssh-keygen -t rsa -b 4096 -C [(default: empty string)]" comment
+        ssh-keygen -t rsa -b 4096 -C $comment
+    fi
+    for account in $@; do
+        if [[ $(ssh -qo ConnectTimeout=3s -o PasswordAuthentication=no $account exit; printf "$?") == 0 ]]; then
+            printf "$account already accessible with ssh.\n"
+        else
+            ssh-copy-id -i ~/.ssh/id_rsa.pub $account
+            ssh -t $account "sudo sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config && sudo systemctl restart sshd";
+        fi
+        printf "Enable root access?\n"
+        select yn in "Yes" "No"; do
+            case $yn in
+                Yes ) ssh -t $account "sudo mkdir -p /root/.ssh -m 700 -Z && sudo touch /root/.ssh/authorized_keys && cat ~/.ssh/authorized_keys | sudo tee -a /root/.ssh/authorized_keys && sudo restorecon -R /root/.ssh"; break;;
+                No ) break;;
+            esac
+        done
+        printf "Disabling root password challenge...\n"
+        ssh -t $account "sudo sed -i 's/#PermitRootLogin/PermitRootLogin without-password/g' /etc/ssh/sshd_config || printf 'PermitRootLogin without-password\n' | sudo tee -a /etc/ssh/sshd_config && sudo systemctl restart sshd";
+        printf "Done!\n"
+    done
+}
+
 bind "TAB:menu-complete"
 bind '"\e[Z":menu-complete-backward'
 bind "set show-all-if-ambiguous on"
